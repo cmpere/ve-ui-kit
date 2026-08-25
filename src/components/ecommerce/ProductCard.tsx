@@ -1,0 +1,7 @@
+import { Heart, ShoppingBag } from 'lucide-react'
+import { Badge } from '../primitives/Badge'
+import { Button } from '../primitives/Button'
+export type Product = { image: string; brand: string; name: string; price: string; compareAt?: string; badge?: 'new' | 'sale' | 'featured' | 'limited' | 'order' | 'out'; unavailable?: boolean }
+export function Price({ price, compareAt }: Pick<Product, 'price' | 'compareAt'>) { return <p className="price"><strong>{price}</strong>{compareAt && <del>{compareAt}</del>}</p> }
+export function ProductCard({ product }: { product: Product }) { return <article className={`product-card ${product.unavailable ? 'is-unavailable' : ''}`}><div className="product-image"><img src={product.image} alt=""/>{product.badge && <Badge kind={product.badge}/>}<button className="icon-button" aria-label={`Guardar ${product.name}`}><Heart size={18}/></button></div><div className="product-body"><p className="eyebrow">{product.brand}</p><h3>{product.name}</h3><Price price={product.price} compareAt={product.compareAt}/><Button variant="ghost" disabled={product.unavailable} iconRight={<ShoppingBag size={15}/>}>{product.unavailable ? 'No disponible' : 'Añadir a la bolsa'}</Button></div></article> }
+export function ProductGrid({ products }: { products: Product[] }) { return <div className="product-grid">{products.map((product) => <ProductCard key={product.name} product={product}/>)}</div> }
